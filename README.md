@@ -12,3 +12,5 @@ make good design decisions, particularly for Python. I eventually realised that 
 The other motivation behind porting it to NumPy is that I'm still working on the Travelling Salesman Problem off 
 and on, and it will be useful to me to have a re-written library that is trimmed down code-wise and makes full use of all
 of Python's beautiful syntactic sugar.
+
+As it is a research project on an unsolved problem in mathematics I have kept some code to myself.
