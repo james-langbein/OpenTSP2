@@ -14,7 +14,8 @@ from decimal import Decimal as Dec
 
 class Node:
     """Represents the nodes as points with a position x, y.
-    The density attribute is used later on, if desired, and is related to the position of a node within a TSP instance.
+    The eccentricity attribute is used later on, if desired, and is related to the position of a node
+    within a TSP instance.
     """
     test = False
 
@@ -488,13 +489,13 @@ class Instance:
     #     """
 
     @property
-    def density_dict(self):
-        """Returns a dictionary of the node densities."""
-        return {key: node.density for key, node in self.nodes.items()}
+    def eccentricity_dict(self):
+        """Returns a dictionary of the node eccentricities."""
+        return {key: node.eccentricity for key, node in self.nodes.items()}
 
     def n_edge_lengths(self, n=None, reverse=False, all_lengths=False):  # TODO: test this for correct output
         """Returns n edge lengths as a list.
-        Default is shortest lengths first. Set reverse=True for longest first.
+        Default is the shortest lengths first. Set reverse=True for longest first.
         If all=True, all the edge will be returned, ignoring n."""
         if self.relative_edges:
             step = 2
@@ -690,15 +691,10 @@ class Instance:
     #     plt.show()
     #
     def populate_eccentricity(self):
-        """Sets the node density values."""
-        inst_edge_sum = self.instance_edge_sum
+        """Sets the node eccentricity values."""
         for node in self.nodes.values():
-            if node.density is None:
-                connected_edge_length_sum = 0
-                for edge in self.edges.values():
-                    if edge.node_one == node or edge.node_two == node:
-                        connected_edge_length_sum += edge.length_
-                node.density = connected_edge_length_sum / inst_edge_sum
+            if node.eccentricity is None:
+                node.eccentricity = sum([edge.length_ for edge in self.edges.values if edge.node_one == node])
 
     @property
     def solution(self):
